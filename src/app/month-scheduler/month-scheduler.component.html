@@ -1,0 +1,167 @@
+
+
+<div>
+
+<div class="column2" style="background-color:blue;">
+  <div class="navbar">
+    <button class="btn " disabled style=" background-color: royalblue; color: white">{{Month}} {{MonthName}} {{MDays}}</button>
+    <div class="dropdown">
+      <button class="dropbtn" >Doctor/clinic
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id="myDropdown">
+        <a href="#">View1</a>
+        <a href="#">View2</a>
+        <a href="#">View3</a>
+      </div>
+    </div>
+
+    <div class="dropdown1">
+      <button class="dropbtn1" >Month
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id="myDropdown1">
+        <a href="#">Month</a>
+        <a href="#">Year</a>
+        <a href="#">Day</a>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!--<div class="logo">-->
+    <!--<button class="btn " disabled style=" background-color: royalblue; color: white">{{Month}} {{MonthName}} {{MDays}}</button>-->
+  <!--</div>-->
+
+  <!--<div class="header-right">-->
+    <!--<button  (click)="ChangeMonth()" class="btn" style="background-color: royalblue; color: white">Next Month</button>-->
+  <!--</div>-->
+</div>
+
+    <!-- Outer div which contains the header div and the month calender div   -->
+  <div id="fc-view-container">  <!-- Month Calendar Div  -->
+    <table>
+      <tr>
+        <td>
+          <div id="month-view">
+            <table id="month-view-table">
+              <thead >
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td>
+
+
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td *ngFor="let ResourceClinic of MonthScreenShareData.ClinicsList">
+                  <div >
+                    <table>
+                      <thead>
+                      <tr>
+                        <td colspan="7"  style="cursor: pointer" (click)="DeleteXResource($event)" >
+                          <div style=" overflow: hidden; white-space: nowrap; background-color: white">{{ResourceClinic}}</div>
+                        </td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="left-resources">
+                  <table>
+                    <thead>
+                    <tr>
+                      <td>
+
+                      </td>
+                    </tr>
+                    </thead>
+                    <tbody *ngFor="let item of TotalDaysPortion">
+                    <tr>
+                      <td (click)="ShowAndHideResources()">
+
+                      </td>
+                    </tr>
+                    <tr *ngFor="let ResourceDoctor of MonthScreenShareData.DoctorsList" >
+                      <td *ngIf="HideResources == true" (click)="DeleteYResource($event)" style="cursor: pointer">
+                        <div style=" overflow: hidden; white-space: nowrap; background-color: white">{{ResourceDoctor}}</div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td *ngFor="let ClinicName of MonthScreenShareData.ClinicsList"> {{RefreshDaysCounter()}}
+                  <div >
+                    <table >
+                      <thead>
+                      <tr>
+                        <th *ngFor="let item of weeks">{{item}}</th>
+                      </tr>
+                      </thead>
+                      <tbody *ngFor="let item of TotalDaysPortion; let DivNumber = index" >
+                      <tr>
+                        <th *ngFor="let item of weeks; let L = index">
+                              <div [ngStyle]="{'background-color': returnDateFound() === true ? 'red' : 'white' }">
+                                {{DaysInMonth[TotalDays]}} {{incrementDay((L+1) + (7 * DivNumber))}}
+                              </div>
+                        </th>
+                      </tr>
+                      <tr *ngFor="let DocName of MonthScreenShareData.DoctorsList" >
+                        <th  style="overflow: hidden; max-width: 10px" *ngFor="let item of weeks; let k = index"  [ngSwitch]="returnItem(DocName,(k+1) + (7 * DivNumber) ,ClinicName)"  >
+                          <div id="EmptyCell" droppable  (onDrop)="onItemDrop($event,DocName,(k+1) + (7 * DivNumber) ,ClinicName)"  *ngSwitchCase="'.'" style="overflow: hidden;white-space: nowrap; background-color: white" [contextMenu]="NoEventContext"  (click)="EmptyBoxClicked(DocName,ClinicName,(k+1) + (7 * DivNumber))">	&nbsp;  </div>
+                          <context-menu #EventContext>
+                            <ng-template contextMenuItem (execute)="CopyElement(returnItem(DocName,(k+1) + (7 * DivNumber) ,ClinicName).AppId)" >
+                              copy
+                            </ng-template>
+                            <ng-template contextMenuItem (execute)="PasteElement(DocName , (k+1) + (7 * DivNumber)  , ClinicName )" >
+                              paste
+                            </ng-template>
+                            <ng-template contextMenuItem (execute)="DeleteElement(DocName,(k+1) + (7 * DivNumber) ,ClinicName)" >
+                              Delete
+                            </ng-template>
+                          </context-menu>
+                          <div id ="FullCell" class="wrapper" draggable dragData="{{returnItem(DocName,(k+1) + (7 * DivNumber) ,ClinicName).Timing}}" droppable (onDrop)="onItemDrop($event)" *ngSwitchDefault style="overflow: hidden; white-space:nowrap; background-color: yellow" [contextMenu]="EventContext"  (click)="EventBoxClicked($event,DocName,ClinicName,(k+1) + (7 * DivNumber) )">
+
+                            <div class="row" style=" overflow: hidden;">
+                              <div  *ngFor="let item of TestArr" style=" overflow: hidden">
+                                {{(returnItem(DocName,(k+1) + (7 * DivNumber) ,ClinicName).Timing)}}
+                              </div>
+                            </div>
+                          </div>
+
+                          <context-menu #NoEventContext>
+                            <ng-template contextMenuItem (execute)="PasteElement(DocName , (k+1) + (7 * DivNumber)  , ClinicName )" >
+                              paste
+                            </ng-template>
+
+                          </context-menu>
+
+                        </th>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>
+
+
+

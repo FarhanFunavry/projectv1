@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<!-- Outer div which contains the header div and the month calender div   -->
+<div>
+
+  <br>
+
+  <div class="column2" style="background-color:#ccc;">
+
+
+    <div class="dropdown">
+      <button class="dropbtn">{{DoctorBox}}</button>
+      <div class="dropdown-content">
+        <a (click)=" UpdateDoctor(item)" *ngFor="let item of AllDoctors">{{item}}</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">{{ClinicBox}}</button>
+      <div class="dropdown-content">
+        <a (click)="UpdateClinic(item)" *ngFor="let item of AllClincis">{{item}}</a>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div class="header">  <!-- Header Div  -->
+    <a class="logo">{{TodayDate}}</a>
+  </div>
+
+
+  <br>
+
+  <div id="fc-view-container">  <!-- Month Calendar Div  -->
+    <table>
+      <tr>
+        <td>
+          <div id="Day-view" >
+            <table id="Day-view-table">
+              <thead >
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td>
+                        --
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td *ngFor="let ResourceClinic of clinics">
+                  <div>
+                    <table>
+                      <thead>
+                      <tr>
+                        <td colspan="7" (click)="DeleteXResource($event)" style="cursor: pointer" >
+                          {{ResourceClinic}}
+                        </td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="left-resources">
+                  <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let ResourceDoctor of Doctors" >
+                      <td (click)="DeleteYResource($event)" style="cursor: pointer">
+                        <div style=" overflow: hidden; white-space: nowrap; background-color: white">{{ResourceDoctor}}</div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td *ngFor="let ClinicName of clinics">
+                  <div>
+                    <table>
+                      <thead>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let DocName of Doctors"  [ngStyle]="{'background-color':returnItem(DocName, ClinicName) === '.' ? 'white' : 'yellow' }" (click)="EventBoxClicked($event , DocName , ClinicName)">
+                        <th [ngSwitch]="returnItem(DocName,ClinicName)" (click)="EventBoxClicked($event , DocName , ClinicName)">
+                          <div droppable (onDrop)="onItemDrop($event)" *ngSwitchCase="'.'" style=" overflow: hidden; white-space: nowrap; background-color: white"> {{returnItem(DocName,ClinicName)}}</div>
+                          <div  draggable dragData="{{returnItem(DocName,ClinicName)}}" droppable (onDrop)="onItemDrop($event)" *ngSwitchDefault style="overflow: hidden; white-space:nowrap; background-color: yellow" [contextMenu] (mousedown)="OnContextMenu(returnItem(DocName,ClinicName))"> {{returnItem(DocName,ClinicName)}}</div>
+                        </th>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>
+
+</html>
+
+
+<context-menu id="basicMenu">
+  <ng-template contextMenuItem (execute)="CopyElement()">
+    copy
+  </ng-template>
+  <ng-template contextMenuItem (execute)="PasteElement()" >
+    paste
+  </ng-template>
+  <ng-template contextMenuItem (execute)="DeleteElement()">
+    Delete
+  </ng-template>
+</context-menu>

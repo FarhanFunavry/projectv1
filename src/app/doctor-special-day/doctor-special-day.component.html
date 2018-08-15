@@ -1,0 +1,60 @@
+<html>
+
+
+
+  <div class="column2" style="background-color:#ccc;">
+
+
+    <div class="dropdown">
+      <button class="dropbtn">{{DoctorBox}}</button>
+      <div class="dropdown-content">
+        <a (click)=" UpdateDoctor(item)" *ngFor="let item of AllDoctors">{{item}}</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="header">  <!-- Header Div  -->
+    <a class="logo">{{TodayDate}}</a>
+  </div>
+
+
+
+
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <td style="text-align: center">
+            {{DocName}}
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let check of currentDoctor">
+            <div>
+              <table>
+                    <tr *ngFor="let item of [0,1,2,3]">
+                      <td *ngFor="let number of [0,1,2,3]">
+                        <div>
+                          {{returnItem()}}
+                        </div>
+                        <div style="border: 1px solid; width: fit-content; display: inline-block"  (click)="alertFun()">
+                          PatientName
+                        </div>
+                      </td>
+                    </tr>
+              </table>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+
+</html>

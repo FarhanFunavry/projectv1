@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<div class="column2" style="background-color:#ccc;">
+
+
+  <div class="dropdown">
+    <button class="dropbtn">{{DoctorBox}}</button>
+    <div class="dropdown-content">
+      <a (click)=" UpdateDoctor(item)" *ngFor="let item of AllDoctors">{{item}}</a>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Outer div which contains the header div and the month calender div   -->
+<div>
+  <div class="header">  <!-- Header Div  -->
+    <a class="logo">{{Year}}   {{MonthName}} 24  --</a>
+    <a class="logo">{{Year}}   {{MonthName}} 31</a>
+  </div>
+
+  <br>
+
+  <div id="fc-view-container">  <!-- Month Calendar Div  -->
+    <table>
+      <tr>
+        <td>
+          <div id="month-view" >
+            <table id="month-view-table">
+              <thead >
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td>
+                        --
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td *ngFor="let ResourceDoc of Doctors">
+                  <div>
+                    <table>
+                      <thead>
+                      <tr>
+                        <td colspan="7" (click)="DeleteXResource($event)" style="cursor: pointer" >
+                          {{ResourceDoc}}
+                        </td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="left-resources">
+                  <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let TwoItems of [1,2]">
+                      <td>
+                        --
+                      </td>
+                    </tr>
+                    <tr *ngFor="let Hours of FullHours" >
+                      <td style="cursor: pointer">
+                        {{Hours}}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td *ngFor="let Doct of Doctors">
+                  <div>
+                    <table>
+                      <thead>
+                      <tr>
+                        <th *ngFor="let item of weeks">{{item}}</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <th  *ngFor="let item of weeks"> 1 </th>
+                      </tr>
+                      <tr *ngFor="let DocName of FullHours" >
+                        <td *ngFor="let item of weeks; let k = index"  [ngStyle]="{'background-color':returnItem(Doct, k )=== '.' ? 'white' : 'yellow' }" >  {{returnItem(Doct, k )}} </td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>
+
+
+</html>

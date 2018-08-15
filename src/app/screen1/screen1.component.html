@@ -1,0 +1,98 @@
+
+<div class="topnav" >
+  <ul>
+    <li><a>Assign Doctor       </a></li>
+    <li><a>Assign Speciality   </a></li>
+    <li><a >Customize          </a></li>
+  </ul>
+
+</div>
+
+<div style="padding-top: 20px; background-color: white">
+      <div style="width:25%; float:left; height:auto; background-color: darkgrey; border-radius: 4px; margin-left: 0; padding: 0">
+
+        <div style="width:100%; height:fit-content; padding-bottom: 30px;   background-color: white;">
+          <div class="w3-ul w3-card-4" style="width: fit-content; margin: 0 auto; padding-top: 10px" >
+            <my-date-picker  name="mydate" [options]="myDatePickerOptions"
+                            [(ngModel)]="model" required  (dateChanged)="onDateChanged($event)"></my-date-picker>
+          </div>
+        </div>
+
+        <div style="background-color: white" class="Imagesrow">
+          <div class="Imagescolumn" (click)="ClinicClicked()" >
+            <img src="../../assets/avatar.png" (click)="DisplayComponent(true)" style="width:55px" class="w3-circle">
+            <button type="button"  (click)= "ShowDoctorFilter()" >DFilter </button>
+            <div *ngIf="DoctorFilter; then trueBlock else falseBlock " >  </div>
+            <ng-template #trueBlock >
+
+
+            <input type="text"  placeholder="Doctor Name" >
+            <input type="text"  placeholder="Doctor Name" >
+            <input type="text"  placeholder="Doctor Name" >
+            </ng-template>
+            <ng-template #falseBlock>
+
+            </ng-template>
+
+
+
+          </div >
+          <div class="Imagescolumn " (click)="ClinicClicked()">
+            <img  src="../../assets/avatar.png" (click)="DisplayComponent(true)" style="width:55px" class="w3-circle">
+            <button type="button"   (click)="ShowClinicFilter()" >CFilter </button>
+            <div *ngIf="ClinicFilter; then trueBlock else falseBlock " >  </div>
+            <ng-template #trueBlock >
+              <input type="text"  placeholder="Cilinic Name" >
+              <input type="text"  placeholder="Cilinic Name" >
+              <input type="text"  placeholder="Cilinic Name" >
+            </ng-template>
+            <ng-template #falseBlock>
+
+            </ng-template>
+
+          </div>
+        </div>
+
+        <div style="width:100%; height:fit-content; background-color: white; padding-top: 40px">
+          <div class="w3-container" [ngSwitch]="DoctorViewClicked">
+
+
+            <ul id='DoctorsList'  *ngSwitchCase="true" class="w3-ul w3-card-4" style="background-color: #f1f1f1" >
+              <li><h2>Doctors</h2></li>
+              <li class="w3-bar" *ngFor="let Doctors of Screen1Ajaxrequest.ListOfAllDoctors" >
+                <!--<span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>-->
+                <span  (click)="SelectedDoctor(Doctors)" class="w3-bar-item w3-button w3-xlarge w3-right"> <input type="checkbox" (change)="DisplayDoctor($event)">  </span>
+                <img src="../../assets/avatar.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                <div class="w3-bar-item">
+                  <span class="w3-large">{{Doctors}}</span><br>
+                  <span>PT</span>
+                </div>
+              </li>
+            </ul>
+
+            <ul id='ClinicList'  *ngSwitchDefault class="w3-ul w3-card-4" style="background-color: #f1f1f1" >
+              <li><h2>Clinics</h2></li>
+              <li class="w3-bar" *ngFor="let Clinics of Screen1Ajaxrequest.ListOfAllClinics" >
+                <!--<span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>-->
+                <span  (click)="SelectedClinic(Clinics)" class="w3-bar-item w3-button w3-xlarge w3-right"  > </span>
+                <img src="../../assets/avatar.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                <div class="w3-bar-item">
+                  <span class="w3-large">{{Clinics}}</span><br>
+                  <span>PT</span>
+                </div>
+              </li>
+            </ul>
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div  *ngIf="SchedulerDisplay" class="Sceduler" style="width:75%; float:left ;  "  >
+          <app-month-scheduler> </app-month-scheduler>
+      </div>
+
+</div>
+
+
